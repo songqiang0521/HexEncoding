@@ -1,2 +1,2 @@
 # HexEncoding
-convert a byte buffer to the it's hexers
+convert a byte buffer to its hexers
