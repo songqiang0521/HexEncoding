@@ -119,7 +119,15 @@ namespace HexEncoding
                         }
 
                         //打印ascii之前，需要调整流的位置
-                        br.BaseStream.Seek(-ValuesPerLine, SeekOrigin.Current);
+                        long current = br.BaseStream.Position;
+                        if (current % ValuesPerLine == 0)
+                        {
+                            br.BaseStream.Seek(-ValuesPerLine, SeekOrigin.Current);
+                        }
+                        else
+                        {
+                            br.BaseStream.Seek(0 - current % ValuesPerLine, SeekOrigin.Current);
+                        }
 
                         //打印ascii
                         for (colIndex = 0; colIndex < ValuesPerLine; colIndex++)
