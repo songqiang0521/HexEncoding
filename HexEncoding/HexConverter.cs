@@ -136,7 +136,7 @@ namespace HexEncoding
                             {
                                 byte value = br.ReadByte();
                                 byte c = Math.Max(value, (byte)32);
-                                bw.Write(c);
+                                bw.Write((char)c);
 
                                 Debug.Write((char)c);
                             }
