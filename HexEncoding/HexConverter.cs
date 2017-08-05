@@ -12,7 +12,7 @@ namespace HexEncoding
     /// </summary>
     public static class HexConverter
     {
-        private const string HexChars = "0123456789abcdef";
+        private const string HexChars = "0123456789ABCDEF";
         private const int ValuesPerLine = 16;
         private const int AddressCharCount = 8;
 
@@ -21,13 +21,14 @@ namespace HexEncoding
         /// </summary>
         /// <param name="srcFile">待转换的源文件名称</param>
         /// <param name="dstFile">存储转换结果的目标文件名称</param>
-        public static void HexFile(string srcFile, string dstFile)
+        /// <param name="outputASCII">是否向文件中输出ASCII</param>
+        public static void HexFile(string srcFile, string dstFile, bool outputASCII)
         {
             using (FileStream src = new FileStream(srcFile, FileMode.Open, FileAccess.Read))
             {
                 using (FileStream dst = new FileStream(dstFile, FileMode.Create, FileAccess.Write))
                 {
-                    HexStream(src, dst);
+                    HexStream(src, dst, outputASCII);
                 }
             }
         }
@@ -36,27 +37,28 @@ namespace HexEncoding
         /// 将byte数组转换为winhex样式的字符串
         /// </summary>
         /// <param name="buffer"></param>
+        /// <param name="containsASCII">是否包含ascii</param>
         /// <returns></returns>
-        public static string ByteBufferToHexString(byte[] buffer)
+        public static string ByteBufferToHexString(byte[] buffer,bool containsASCII)
         {
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
 
-            int size = GetStringSize(buffer.Length);
+            int size = GetStringSize(buffer.Length, containsASCII);
             byte[] result = new byte[size];
 
             MemoryStream src = new MemoryStream(buffer);
             MemoryStream dst = new MemoryStream(result);
 
-            HexStream(src, dst);
+            HexStream(src, dst,containsASCII);
 
             string text = Encoding.UTF8.GetString(result);
             return text;
         }
 
-        private static void HexStream(Stream src, Stream dst)
+        private static void HexStream(Stream src, Stream dst, bool outputASCII)
         {
             if (!src.CanRead)
             {
@@ -118,33 +120,37 @@ namespace HexEncoding
                             }
                         }
 
-                        //打印ascii之前，需要调整流的位置
-                        long current = br.BaseStream.Position;
-                        if (current % ValuesPerLine == 0)
+                        if (outputASCII)
                         {
-                            br.BaseStream.Seek(-ValuesPerLine, SeekOrigin.Current);
-                        }
-                        else
-                        {
-                            br.BaseStream.Seek(0 - current % ValuesPerLine, SeekOrigin.Current);
-                        }
-
-                        //打印ascii
-                        for (colIndex = 0; colIndex < ValuesPerLine; colIndex++)
-                        {
-                            if (rowIndex * ValuesPerLine + colIndex < bytesCount)
+                            //打印ascii之前，需要调整流的位置
+                            long current = br.BaseStream.Position;
+                            if (current % ValuesPerLine == 0)
                             {
-                                byte value = br.ReadByte();
-                                byte c = Math.Max(value, (byte)32);
-                                bw.Write((char)c);
-
-                                Debug.Write((char)c);
+                                br.BaseStream.Seek(-ValuesPerLine, SeekOrigin.Current);
                             }
                             else
                             {
-                                bw.Write(' ');
-                                Debug.Write(" ");
+                                br.BaseStream.Seek(0 - current % ValuesPerLine, SeekOrigin.Current);
                             }
+
+                            //打印ascii
+                            for (colIndex = 0; colIndex < ValuesPerLine; colIndex++)
+                            {
+                                if (rowIndex * ValuesPerLine + colIndex < bytesCount)
+                                {
+                                    byte value = br.ReadByte();
+                                    byte c = Math.Max(value, (byte)32);
+                                    bw.Write((char)c);
+
+                                    Debug.Write((char)c);
+                                }
+                                else
+                                {
+                                    bw.Write(' ');
+                                    Debug.Write(" ");
+                                }
+                            }
+
                         }
 
                         //打印回车换行
@@ -162,12 +168,17 @@ namespace HexEncoding
         /// 根据byte数组的长度得到容纳结果字符串所需的存储空间
         /// </summary>
         /// <param name="bytesLength">待转换的byte数组的长度</param>
+        /// <param name="containsASCII">输出内容是否包含ASCII</param>
         /// <returns>所需存储空间大小</returns>
-        private static int GetStringSize(int bytesLength)
+        private static int GetStringSize(int bytesLength,bool containsASCII)
         {
             int addressLength = AddressCharCount + 1 + 1;//地址字符加冒号加空格
             int valuesLength = ValuesPerLine * 3;//两个字符加一个空格
-            int asciiLength = ValuesPerLine * 2;//ascii码值
+            int asciiLength = 0;
+            if (containsASCII)
+            {
+                asciiLength = ValuesPerLine * 2;//ascii码值
+            }
 
             int sizePerLine = addressLength + valuesLength + asciiLength + Environment.NewLine.Length;
 

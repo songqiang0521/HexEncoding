@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HexEncoding", "HexEncoding\HexEncoding.csproj", "{ECA0C413-A702-4944-86F0-5D834BF14B5A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HexEncoding.Test", "HexEncoding.Test\HexEncoding.Test.csproj", "{F92A06CB-E0E2-4E0D-9B19-B36ECF33A204}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HexEncoding.WIN32", "HexEncoding.WIN32\HexEncoding.WIN32.vcxproj", "{80711795-7B65-4E19-B9E7-9F5921839878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexFile", "HexFile\HexFile.csproj", "{9651646A-3084-4DED-BBB0-D60D55277A36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,18 @@ Global
 		{80711795-7B65-4E19-B9E7-9F5921839878}.Release|x64.Build.0 = Release|x64
 		{80711795-7B65-4E19-B9E7-9F5921839878}.Release|x86.ActiveCfg = Release|Win32
 		{80711795-7B65-4E19-B9E7-9F5921839878}.Release|x86.Build.0 = Release|Win32
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|x64.Build.0 = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Debug|x86.Build.0 = Debug|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|x64.ActiveCfg = Release|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|x64.Build.0 = Release|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|x86.ActiveCfg = Release|Any CPU
+		{9651646A-3084-4DED-BBB0-D60D55277A36}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,9 +14,7 @@ namespace HexEncoding.Test
             var file=Process.GetCurrentProcess().MainModule.FileName;
             File.Copy(file, dstFile,true);
 
-            HexEncoding.HexConverter.HexFile(dstFile, dstFile+".dat");
-            Assert.True(1==1);
-
+            HexEncoding.HexConverter.HexFile(dstFile, dstFile+".dat",true);
         }
 
 
